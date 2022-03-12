@@ -1,0 +1,60 @@
+
+
+<style>
+legend{
+	font-family: 'Lato';
+	padding-bottom: 50px;
+	font-size: 45px;
+}
+.container{
+	border-radius: 20px;
+	background-color: rgb(255, 255, 255);
+	margin-top: 50px;
+	box-shadow: none;
+}
+label{
+	font-family: 'Lato';
+}
+.btn{
+	border-radius: 20px;
+	font-family: 'Lato';
+	margin-top: 20px;
+	
+}
+
+#logo{
+	height: 80px;
+	width: 100px;
+	position: absolute;
+}
+
+</style>
+<div class="container">
+<div class="row">
+	<div class="col-md-6">
+		<img src="https://www.pinclipart.com/picdir/big/58-589787_human-resource-intern-bhumi-ngo-chennai-hd-clipart.png" id="logo">
+		<img src="https://payslip.poneksim.com/img/forgot-password.svg" style="width: 100%;
+		object-fit: cover;
+		">
+	</div>
+
+	<div class="col-md-6">
+		<form action="/users/reset/<%= token %>" method="POST">
+		  <legend>Reset Password</legend>
+		  <%- include ('./partials/errormsgs') %>
+		  <div class="form-group">
+		    <label for="password">New Password</label>
+		    <input type="password" name="password" value="" placeholder="New password" autofocus="autofocus" class="form-control"/ style="border-radius: 20px; font-family: 'Lato';">
+		  </div>
+		  <div class="form-group" style="padding-top: 20px;">
+		    <label for="confirm">Confirm Password</label>
+		    <input type="password" name="confirm" value="" placeholder="Confirm password" class="form-control"/ style="border-radius: 20px; font-family: 'Lato';">
+		  </div>
+		  <div class="form-group">
+		    <center><button type="submit" class="btn btn-primary">Update Password</button></center>
+		  </div>
+		</form>
+	</div>
+</div>
+
+</div>

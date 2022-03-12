@@ -1,0 +1,242 @@
+<head>
+  <style>
+    .navbar {
+      border: none;
+      border-radius: 2px;
+      margin-bottom: 20px;
+      font-family: 'Lato';
+      width: 1532px;
+      margin-left: -212px;
+      background-color: #23252A;
+      color: whitesmoke;
+
+
+
+
+    }
+
+    .nav-item {
+      padding-left: 30px;
+      padding-right: 30px;
+      margin-left: 80px;
+      color: white;
+      margin-top: 10px;
+
+    }
+
+    .nav-link {
+      color: white;
+
+    }
+
+    .nav-item a:hover {
+
+      border-radius: 30px !important;
+
+      background-color: #0088A9;
+      border: none;
+      color: white;
+
+
+
+    }
+
+    .nav-link a:active {
+      border-radius: 40px !important;
+
+      background-color: #0088A9 !important;
+      border: none !important;
+      color: white !important;
+      margin-top: 10px;
+
+
+    }
+
+    th {
+      font-family: 'Lato';
+      border: none;
+      background: linear-gradient(90deg, rgba(25, 161, 212, 1) 14%, rgba(53, 231, 231, 1) 59%, rgba(6, 204, 205, 0.7990546560421043) 88%);
+      font-size: large;
+      font-weight: bolder;
+      text-transform: uppercase;
+    }
+
+    table {
+      text-align: center;
+      border-top: none;
+      border: none;
+      border-collapse: collapse;
+      margin-top: 100px;
+      border-bottom: none;
+    }
+
+    td {
+      font-family: 'Lato';
+    }
+
+    thead {
+      border: none;
+    }
+
+    td:nth-child(odd) {
+      background-color: #e6e6e6;
+    }
+
+    .nav-tabs .nav-link.active,
+    .nav-tabs .nav-item.show .nav-link {
+      border-radius: 30px;
+
+      background-color: #0088A9;
+      border: none;
+      color: white;
+      margin-top: 10px;
+    }
+
+    #brand1 {
+      position: relative;
+      left: -110px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-sm  ">
+    <div class="container">
+      <ul class="nav nav-tabs tabs" role="tablist" style="border-bottom: none;">
+        <a class="navbar-brand" href="https://www.bhumi.ngo/">
+          <img
+            src="https://www.pinclipart.com/picdir/big/58-589787_human-resource-intern-bhumi-ngo-chennai-hd-clipart.png"
+            alt="logo" style="width:80px;height: 50px;" id="brand1">
+        </a>
+        <li class="nav-item">
+          <a class="nav-link active " data-toggle="tab" href="#requests" role="tab"> Requests </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#verified" role="tab"> Verified List </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#logs" role="tab"> LOGS </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/users/logoutadmin"> Logout </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- <div class="row mt-5"> -->
+  <div class="tab-content tabs">
+    <div class="tab-pane active" id="requests" role="tabpanel">
+      <table class="table table-striped " border="1">
+        <thead>
+          <tr>
+            <th style="border-radius: 20px 0px 0px 0px; border: none;"> Name </th>
+            <th style="border: none;"> Email </th>
+            <th style="border: none;border-radius: 0px 20px 0px 0px;"> Action </th>
+          </tr>
+        </thead>
+        <% requests.forEach(function(request) { %>
+        <tbody>
+          <tr>
+            <td> <%= request.name %> </td>
+            <td> <%= request.email %> </td>
+            <td>
+              <a href="/users/validate/<%= request._id %>"> Accept </a>
+              <a style="margin-left: 20px;" href="/users/invalidate/<%= request._id %>"> Decline </a>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+    <!-- </div> -->
+
+    <div class="tab-pane" id="verified" role="tabpanel">
+      <table class="table" border="1">
+        <tr>
+          <th style="border: none; border-radius: 20px 0px 0px 0px;"> Name </th>
+          <th style="border: none;"> Email </th>
+          <th style="border: none;"> Send Limit </th>
+          <th style="border: none;">Total Sent</th> 
+          <th style="border: none;border-radius: 0px 20px 0px 0px;"> Change Limit </th>
+        </tr>
+        <% vers.forEach(function(ver) { %>
+        <tr>
+          <td> <%= ver.name %> </td>
+          <td> <%= ver.email %> </td>
+          <td> <%= ver.limit %> </td>
+          <td> <%= ver.totalSent %> </td>
+          <td>
+            <!-- <a href="/users/setlimit/<%= ver._id %>"> Change </a> -->
+            <form action="/users/setlimit/<%= ver._id %>" method="POST">
+              <div class="form-group">
+                <input id="lim" name="lim" type="number" class="form-control" placeholder="new limit" /
+                  style="border-radius: 5px; font-family: 'Lato';">
+                <input type="submit" /
+                  style="border-radius: 5px; font-family: 'Lato'; background-color: black; color: white; border: none;margin-top: 20px; padding: 5px;">
+              </div>
+            </form>
+          </td>
+        </tr>
+        <% }); %>
+      </table>
+    </div>
+
+    <div class="tab-pane" id="logs" role="tabpanel">
+      <h3> Enter the range between which you want to see the logs: </h3>
+      <form action="/users/adminpage" method="POST">
+        <input type="date" id="startDate" name="startDate" class="form-control" />
+        <input type="date" id="endDate" name="endDate" class="form-control" />
+        <br>
+        <div style="text-align: center;">
+          <button id="btn3" style="text-align:center" type="submit">Submit</button>
+        </div>
+      </form>
+      <br>
+      <table class="col-md-6 m-auto" border="1">
+        <tr>
+          <th style="background-color: yellow"> Name </th>
+          <th style="background-color: yellow"> Email </th>
+          <th style="background-color: yellow"> Last used </th>
+          <th style="background-color: yellow"> Certificates Sent </th>
+          <th style="background-color: yellow"> More Details </th>
+        </tr>
+        <% if(loggs.length > 0){ %>
+        <% loggs.forEach(function(logg) { %>
+        <tr>
+          <td> <%= logg.user.name %> </td>
+          <td> <%= logg.user.email %> </td>
+          <td> <%= logg.user.date %> </td>
+          <td> <%= logg.user.certsent %> </td>
+          <td> 
+                <form action="/users/more/<%=logg._id %>" method="POST">
+                  <div class="form-group">
+                    <input value="View" type="submit" style="font-family: 'Lato'; color: rgb(24, 5, 128); border: none; margin-top: 20px;" />
+                  </div>
+                </form>
+          </td>
+        </tr>
+        <% }); %>
+        <% } else{ %>
+        <h3>No logs found!</h3>
+        <% } %>
+      </table>
+    </div>
+  </div>
+  <!-- <div class="row mt-5"  style="float: right;">
+<a style="padding: 20px 30px 20px 30px; font-size: 20px;" href="/users/logoutadmin" class="btn btn-secondary">Logout</a>
+</div> -->
+
+  <!-- <script>
+function setLimit(lim){
+  var setto = prompt("Change limit to:");
+  if (setto == null || setto == "") {
+    console.log("User cancelled.");
+  } 
+  else {
+    lim = setto;
+  }
+}
+</script> -->
+</body>

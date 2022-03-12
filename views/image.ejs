@@ -1,0 +1,1001 @@
+
+<h1 style="font-family: 'Lato'; font-weight: bolder;color: tomato;"> <img src="https://www.pinclipart.com/picdir/big/58-589787_human-resource-intern-bhumi-ngo-chennai-hd-clipart.png" id="logo">The Certificate Tool </h1>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<canvas id="hotspot_image" width="<%=width%>" height="<%=height%>" name="hotspot_image"
+    style="cursor:crosshair;background:url(<%=url%>);background-size:contain;background-repeat: no-repeat"></canvas>
+
+<style>
+    body {
+        text-align: center;
+    }
+
+    #leftbox {
+        float: left;
+        width: 30%;
+        height: 200px;
+    }
+
+    #middlebox {
+        float: right;
+        width: 28%;
+        height: 200px;
+    }
+
+    #rightbox {
+        float: right;
+        width: 40%;
+        height: 200px;
+        padding-bottom: 40px;
+    }
+
+    .button {
+        background-color: tomato;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 80px;
+    }
+
+    .button2 {
+        background-color: #da8778;
+        border: none;
+        color: #ffffff9c;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        border-radius: 80px;
+    }
+
+    .button:hover {
+        box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .loader {
+        margin: 0 45%;
+        text-align: center;
+        border: 8px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 8px solid #3498db;
+        width: 40px;
+        height: 40px;
+        -webkit-animation: spin 2s linear infinite;
+        /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        padding-top: 100px;
+        /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        border: 1px solid #888;
+        width: 80%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s
+    }
+
+    /* Add Animation */
+    @-webkit-keyframes animatetop {
+        from {
+            top: -300px;
+            opacity: 0
+        }
+
+        to {
+            top: 0;
+            opacity: 1
+        }
+    }
+
+    @keyframes animatetop {
+        from {
+            top: -300px;
+            opacity: 0
+        }
+
+        to {
+            top: 0;
+            opacity: 1
+        }
+    }
+
+    /* The Close Button */
+    .close {
+        color: white;
+       
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: tomato;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 26px 16px;
+        background: white;
+    }
+
+    .modal-footer {
+        padding: 2px 16px;
+        background-color: tomato;
+        color: white;
+    }
+    h2{
+        font-family: 'Lato';
+        color: black;
+    }
+    label{
+        font-family: 'Lato';
+    }
+
+    textarea, textarea.form-control, select, select.form-control {
+    border-radius: 2px !important;
+    display: inline-block;
+  border: 1px solid #ccc;
+  padding: 6px;
+  margin: 6px;
+  box-sizing: border-box;
+   max-width: -webkit-fill-available;
+}
+
+button, input, optgroup, select, textarea {
+    font-family: 'Lato';
+}
+.ff{
+    vertical-align: middle;
+    
+}
+.close:before, .close:hover:before, .close:focus:before, .close:active:before {
+    position: absolute;
+    content: none;
+    color: #333;
+}
+
+#logo{
+height: 80px;
+width: 100px;
+position: relative;
+right: 480px;
+top: 10px;
+
+
+}
+    
+</style>
+<form method="post" action="/trialItUp/<%=name%>/<%=boxNo%>">
+    <!-- <h1>Width of image</h1>
+    <p id="widt"><%=width%></p>
+    <h1>Height of image</h1>
+    <p id="heig"><%=height%></p> -->
+    <!-- <input type="submit" value="Preview Image" /> -->
+
+    <input type="hidden" id="xStart" name="a">
+    <input type="hidden" id="yStart" name="b">
+    <input type="hidden" id="wid" name="c">
+    <input type="hidden" id="hei" name="d">
+    <input type="hidden" id="trial" name="e">
+    <input type="hidden" id="trialer" name="f">
+    <!-- Font Color -->
+    <div id="leftbox">
+        <h2 >Font Color:</h2>
+        <input name="Color Picker" id="oh" type="color" onchange="changeFontColor()" / style="border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;">
+        <input id="h" name="fontColor" value="#000000" / style="border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        max-width: -webkit-fill-available; 
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;">
+        <br><br>
+        <button class="button" id="preview" style="margin-top: 40px;margin-bottom: 30px; font-family: 'Lato';" type="submit"
+            onclick="run()">Preview
+            Certificate</button>
+    </div>
+    <!-- Font Size -->
+    <div id="middlebox">
+        <h2>Font-Size:</h2>
+        <br>
+        <input style="position: relative; bottom: 17px;border: 1px solid #ccc;
+        border-radius: 4px;box-sizing: border-box;
+        
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        max-width: -webkit-fill-available;" type="number" id="fSize" name="fontSize" value="40" />
+        <div class="loader" id="loading"></div>
+        <button class="button" id="genBtn" style="margin-top: 40px;margin-bottom: 30px; font-family: 'Lato';" type="button"
+            onclick="genCert()">Generate
+            Certificates</button>
+    </div>
+    <!-- <button type="button" onclick="getHim()">Get Him</button> -->
+</form>
+<div id="rightbox">
+    <h2 >Select detail to print:</h2>
+    <input type="hidden" value="<%=keys%>" id="myKeys" style="border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    ">
+    <select id="infos" style="font-size:28px;margin-bottom: 15px; font-family: 'Lato';border: 1px solid #ccc;
+    border-radius: 30px;
+    box-sizing: border-box;
+    padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;">
+    </select>
+    <h2 >Select Font Family</h2>
+    <input type="hidden" value="<%=fonts%>" id="myFonts" style="border-radius: 30px;">
+    <select id="fonts" style="font-size:28px;margin-bottom: 32px; font-family: 'Lato';
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    box-sizing: border-box;
+    padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+    ">
+    </select>
+    <div class="loader" id="loading2"></div>
+    <h2 id="emailSuccess" style="padding-bottom: 150px;">Emails Successfully Sent!</h2>
+    <h2 id="currSentStats">Sent <strong id="xSent">0</strong> of <strong id="totalMails">x</strong> Emails</h2>
+</div>
+
+<!-- <form method="post" action="/sendMails"> -->
+<input type="hidden" id="boxNum" value=<%=boxNo%>>
+<!-- </form> -->
+<!-- <form method="post" action="/sendMails"> -->
+
+<!-- Trigger/Open The Modal -->
+<button class="button" id="mailHide" style="margin-left: 40px;margin-top: 120px;font-family: 'Lato';">Send Mail</button>
+<!-- </form> -->
+<form method="get" action="/download">
+    <button class="button" type="submit" id="downloadHide" style="margin-left: 40px; font-family: 'Lato';" onclick="downloadMails()">Download
+        Certificate</button>
+</form>
+<div class="row mt-2">
+    <a style="padding: 20px 30px 20px 30px; font-size: 20px;margin: 10px 535px; font-family: 'Lato'; border-radius: 2px; color: white; margin-top: 60px;" class="btn btn-secondary"
+        onclick="logout()">Logout</a>
+</div>
+
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content" style="background: tomato;">
+        <div class="modal-header1" style="justify-content: center;">
+            <span class="close">&times;</span>
+           <center> <h2 style="color: white; margin-left: 20px; text-align: center;">Send Emails</h2></center>
+        </div>
+        <div class="modal-body">
+            <label style="margin-left: -16px;">Enter From Email</label>
+            <select name="fromEmail" id="fromEmail">
+                <option value="contact@bhumi.ngo" style="font-family: 'Lato';">contact@bhumi.ngo</option>
+            </select>
+            <!-- <textarea type="text" rows="1" cols="50" id="frmEmail" name="fromEmail"></textarea> -->
+            <br>
+            <label style="padding-bottom: 10px;vertical-align: text-bottom;">Enter Subject</label>
+            <textarea type="text" rows="1" cols="50" id="subj" name="sub" style="border-radius: 30px;"></textarea>
+            <br>
+            <label style="margin-right: 29px;vertical-align: top;margin-top: 15px;">Enter Cc</label>
+            <textarea type="text" rows="1" cols="50" id="cc" name="cc"></textarea>
+            <br>
+            <label style="margin-right: 24px;vertical-align: text-bottom;">Enter Bcc</label>
+            <textarea type="text" rows="1" cols="50" id="bc" name="bcc"></textarea>
+            <br>
+            <p class="ff">
+            <label style="margin-top: 50px;
+            vertical-align: top;">Enter Content</label>
+            <textarea rows="5" cols="50" id="cont" name="content"></textarea>
+            </p>
+            <br>
+
+            <!-- <button class="button" type="button" onclick="testBody()">TestBody</button> -->
+            <button class="button" id="emailBtn" type="button" style="margin-left: 40px;background: tomato; font-family: 'Lato';" >Send Emails</button>
+        </div>
+        <div class="modal-footer" style="border-top: none;">
+            <div style="height: 30px;"></div>
+            <!--<h3>Send Emails</h3>--->
+        </div>
+    </div>
+
+</div>
+
+<br>
+<!-- <button type="button" onclick="fo()">Submit Form</button> -->
+<!-- <h2 id="myDIV">Preview</h2>
+<img src="../modified/output-7-3-2020.png" id="ima"> -->
+<script>
+    // numOfWrongEmailsEle = document.getElementById("numOfWrongEmails")
+    // listOfUnsendEmailsEle = document.getElementById("listOfUnsendEmails")
+    // listOfUnsendEmailsEle.style.display = "none"
+    // outputEle = document.getElementById("output")
+    currSentStatsEle = document.getElementById("currSentStats")
+    currSentStatsEle.style.display = "none"
+    xSentEle = document.getElementById("xSent")
+    totalMailsEle = document.getElementById("totalMails")
+    emailBtnEle = document.getElementById("emailBtn")
+    const dev = true;
+    // const socketServerLink = (dev)?"http://ec2-35-154-146-113.ap-south-1.compute.amazonaws.com:5500":"http://localhost:5500";
+    // const socketServerLink = (dev)?"http://ec2-15-206-151-45.ap-south-1.compute.amazonaws.com:5500":"http://localhost:5500";
+    const socketServerLink = (dev)?"ec2-3-109-87-149.ap-south-1.compute.amazonaws.com:5500":"http://localhost:5500";
+    //Lets use Socket.io
+    var socket = io.connect(socketServerLink)
+    emailBtnEle.addEventListener('click', () => {
+        currSentStatsEle.style.display = "inline-block"
+        modal.style.display = "none";
+        mailHideEle.disabled = true
+        mailHideEle.classList.remove("button")
+        mailHideEle.className += "button2"
+        back = true
+        let body = {
+            fromEmail: fromEmailEle.value,
+            sub: subEle.value,
+            cc: ccEle.value,
+            bcc: bccEle.value,
+            content: contentEle.value
+        }
+        theLoaderEle2.style.display = "block"
+        socket.emit('chat', body)
+    })
+
+    var wrongCount = 0
+    socket.on('chat', function (data) {
+        console.log(data)
+        if (data.limitMessage != '') {
+            theLoaderEle2.style.display = "none"
+            currSentStatsEle.style.display = "none"
+            alert(data.limitMessage)
+            socket.disconnect()
+        }
+        else {
+            if(data.wrongEmails != '') {
+                wrongCount++
+                listOfUnsendEmailsEle.style.display = "inline-block"
+                numOfWrongEmailsEle.innerHTML = wrongCount
+                outputEle += '<h4>' + data.wrongEmails + '<h4>'
+            }
+            xSentEle.innerHTML = data.count
+            totalMailsEle.innerHTML = data.total
+            console.log("Total number of emails sent and all their additional data is: ",data)
+            if (data.count == data.total) {
+                emailSuccessEle.style.display = "block"
+                theLoaderEle2.style.display = "none"
+                socket.disconnect()
+            }
+        }
+
+    })
+    //Prompted when leaving the page during a process
+    // window.onbeforeunload = sureToLeave()
+    // function sureToLeave() {
+    //     if (confirm("You have not yet sent or downloaded certificates. Are you sure to Leave?")) {
+    //     }
+    //     else {
+    //     }
+    // }
+
+    // window.onbeforeunload = function () {
+    //     return 'Are you sure you want to leave?';
+    // };
+
+    // window.onunload = function () {
+    //     window.location.href = '/users/logout'
+    // }
+
+    // var alertLock = 0
+
+    // if (alertLock == 0) {
+    //     window.removeEventListener('beforeunload', function (e) {
+    //         e.preventDefault();
+    //         // window.location.href = '/users/logout'
+    //         e.returnValue = '';
+    //     });
+    // }
+    // window.addEventListener('beforeunload',alertFunc(e));
+
+    // function alertFunc(e) {
+    //     e.preventDefault();
+    //     // window.location.href = '/users/logout'
+    //     e.returnValue = '';
+    // }
+    // if (alertLock == 0) {
+    //     window.addEventListener('beforeunload', function (e) {
+    //         // Cancel the event
+    //         e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+    //         // Chrome requires returnValue to be set
+    //         e.returnValue = '';
+    //     });
+    //     window.removeEventListener('beforeunload', function (e) {
+    //         // Cancel the event
+    //         e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+    //         // Chrome requires returnValue to be set
+    //         e.returnValue = '';
+    //     });
+    // }
+    // window.onbeforeunload = function () {
+    //     return "Do you really want to close?";
+    //     window.location.href = '/users/logout'
+    // };
+
+    var back = false;
+    // back = true; //Somewhere, the condition is set to true
+    window.onbeforeunload = function (e) {
+        if (back == true)
+            return "Are you sure to exit?";
+    }
+
+    // window.onunload = function () {
+    //     window.location.href = '/users/logout'
+    // };
+
+    ///////////////
+    var frmEle = document.getElementById("frmEmail")
+    var subEle = document.getElementById("subj")
+    var ccEle = document.getElementById("cc")
+    var bccEle = document.getElementById("bc")
+    var contentEle = document.getElementById("cont")
+    function testBody() {
+        console.log(frmEle.value)
+        console.log(subEle.value)
+        console.log(ccEle.value)
+        console.log(bccEle.value)
+        console.log(contentEle.value)
+    }
+    prevEle = document.getElementById("preview")
+    mailHideEle = document.getElementById("mailHide")
+    mailHideEle.style.display = "none"
+    downloadHideEle = document.getElementById("downloadHide")
+    downloadHideEle.style.display = "none"
+    theLoaderEle = document.getElementById("loading")
+    theLoaderEle.style.display = "none"
+    theLoaderEle2 = document.getElementById("loading2")
+    theLoaderEle2.style.display = "none"
+    emailSuccessEle = document.getElementById("emailSuccess")
+    emailSuccessEle.style.display = "none"
+    genBtnEle = document.getElementById("genBtn")
+    genBtnEle.style.display = "none"
+    var downloadSent = 0
+    var boxNumEle = document.getElementById("boxNum").value
+    if (boxNumEle > 0) {
+        genBtnEle.style.display = "inline-block"
+    }
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    // var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    mailHideEle.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    // var boxData;
+    // function fo() {
+    //     const options = {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(boxData)
+    //     }
+    //     fetch('/checkinUp', options).then((res) => {
+    //         console.log(res.status + "\n" + res.xCoor)
+    //     })
+    // }
+    // function getHim() {
+    //     const options = {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(boxData)
+    //     }
+    //     fetch('/resize/uploads/<%=name%>',options).then((res) => {
+    //         console.log(res)
+    //     })
+    // }
+    function logout() {
+        if (downloadSent == 0) {
+            if (confirm("You have not yet sent or downloaded certificates. Are you sure to Leave?")) {
+                window.location.href = '/users/logout'
+            }
+            else {
+            }
+        }
+        else {
+            window.location.href = '/users/logout'
+        }
+    }
+    function genCert() {
+        theLoaderEle.style.display = "block"
+        genBtnEle.disabled = true
+        prevEle.disabled = true
+        genBtnEle.classList.remove("button")
+        genBtnEle.className += "button2"
+        prevEle.classList.remove("button")
+        prevEle.className += "button2"
+        axios.post('/generateCertificates')
+            .then(function (response) {
+                // handle success
+                console.log("Response of generateCerticate is: ",response);
+                mailHideEle.style.display = "inline-block"
+                downloadHideEle.style.display = "inline-block"
+                theLoaderEle.style.display = "none"
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+            .finally(function () {
+                console.log("Say hello 2 everyone!")
+                // always executed
+            });
+    }
+
+    fromEmailEle = document.getElementById("fromEmail")
+
+    function sendMails() {
+        modal.style.display = "none";
+        mailHideEle.disabled = true
+        mailHideEle.classList.remove("button")
+        mailHideEle.className += "button2"
+        back = true
+        let body = {
+            fromEmail: fromEmailEle.value,
+            sub: subEle.value,
+            cc: ccEle.value,
+            bcc: bccEle.value,
+            content: contentEle.value
+        }
+        theLoaderEle2.style.display = "block"
+        axios.post('/sendMails', body)
+            .then(function (response) {
+                // handle success
+                if (response.status == 204) {
+                    back = false
+                    console.log(response);
+                    theLoaderEle2.style.display = "none"
+                    emailSuccessEle.style.display = "block"
+                    downloadSent++
+                    console.log("Its cool!")
+                }
+                else if (response.status == 205) {
+                    back = false
+                    console.log(response);
+                    theLoaderEle2.style.display = "none"
+                    alert("The total emails to be sent exceeds your available Limit. Contact Admin....")
+                }
+                else if (response.status == 206) {
+                    back = false
+                    mailHideEle.disabled = false
+                    console.log(response);
+                    theLoaderEle2.style.display = "none"
+                    mailHideEle.classList.remove("button2")
+                    mailHideEle.className += "button"
+                    alert("Look like your Email is not registered to send emails. Use another Email")
+                }
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error.status);
+            })
+            .finally(function () {
+                console.log("Send Mails to everyone!")
+                theLoaderEle2.style.display = "none"
+                // always executed
+            });
+    }
+    function downloadMails() {
+        downloadSent++
+    }
+    function run() {
+        document.getElementById("infos").selectedIndex = "0";
+        document.getElementById("fonts").selectedIndex = "0";
+        mailHideEle = document.getElementById("mailHide")
+        mailHideEle.style.display = "none"
+        downloadHideEle = document.getElementById("downloadHide")
+        downloadHideEle.style.display = "none"
+        // document.getElementById("infos").selectedIndex = 0
+        // myFunction()
+    }
+    var keyEle = [], indexVal = 0
+    keyEle = document.getElementById("myKeys").value
+    separratedKeyEle = keyEle.split(',')
+    console.log(typeof (separratedKeyEle))
+    for (var i = 0; i < keyEle.length; i++) {
+        console.log(separratedKeyEle[i])
+    }
+
+    var fontsEle = [], indexFontsVal = 0
+    fontsEle = document.getElementById("myFonts").value
+    separratedFontsEle = fontsEle.split(',')
+    console.log(typeof (separratedFontsEle))
+    for (var i = 0; i < fontsEle.length; i++) {
+        console.log(separratedFontsEle[i])
+    }
+
+    function myFunction() {
+        var opt = []
+
+        //New
+        for (var i = 0; i < separratedKeyEle.length; i++) {
+            opt[i] = document.createElement('option')
+            opt[i].appendChild(document.createTextNode(separratedKeyEle[i]));
+            opt[i].value = separratedKeyEle[i]
+        }
+        //New Close
+
+        // var opt1 = document.createElement('option');
+        // var opt2 = document.createElement('option');
+        // var opt3 = document.createElement('option');
+
+        // opt1.appendChild(document.createTextNode('a'));
+        // opt2.appendChild(document.createTextNode('b'));
+        // opt3.appendChild(document.createTextNode('c'));
+
+        // opt1.value = 'Ash';
+        // opt2.value = 'BlackBeard';
+        // opt3.value = 'Valkyrie';
+        sel = document.getElementById("infos")
+        //New start
+        for (var i = 0; i < separratedKeyEle.length; i++) {
+            sel.appendChild(opt[i])
+        }
+        //New close
+
+        // sel[k].appendChild(opt1);
+        // sel[k].appendChild(opt2);
+        // sel[k].appendChild(opt3);
+        sel.addEventListener("change", consoleIt)
+        var sele = document.getElementById("trial")
+        function consoleIt(e) {
+            console.log(e.path[0].id)
+            // const ele = document.getElementById(e.path[0].id)
+            console.log("this is the email:"+fromEmailEle.value)
+            idName = e.path[0].id
+            lastDigit = parseInt(idName[idName.length - 1], 10)
+            console.log(lastDigit)
+            console.log("Showing the Value:" + sel.value)
+            document.getElementById("trial").value = sel.value;
+            console.log("Value stored in e:" + document.getElementById("trial").value)
+            // ele.addEventListener("change")
+        }
+        // sel.selectedIndex = 0
+        sele.value = sel.value
+        console.log("Initial Value:" + sel.value)
+    }
+
+    //fonts myFunction
+    function myFunctionFonts() {
+        var opt2 = []
+
+        //New
+        for (var i = 0; i < separratedFontsEle.length; i++) {
+            opt2[i] = document.createElement('option')
+            opt2[i].appendChild(document.createTextNode(separratedFontsEle[i]));
+            opt2[i].value = separratedFontsEle[i]
+        }
+        //New Close
+
+        // var opt1 = document.createElement('option');
+        // var opt2 = document.createElement('option');
+        // var opt3 = document.createElement('option');
+
+        // opt1.appendChild(document.createTextNode('a'));
+        // opt2.appendChild(document.createTextNode('b'));
+        // opt3.appendChild(document.createTextNode('c'));
+
+        // opt1.value = 'Ash';
+        // opt2.value = 'BlackBeard';
+        // opt3.value = 'Valkyrie';
+        sel2 = document.getElementById("fonts")
+        //New start
+        for (var i = 0; i < separratedFontsEle.length; i++) {
+            sel2.appendChild(opt2[i])
+        }
+        //New close
+
+        // sel[k].appendChild(opt1);
+        // sel[k].appendChild(opt2);
+        // sel[k].appendChild(opt3);
+        sel2.addEventListener("change", consoleItFonts)
+        var sele2 = document.getElementById("trialer")
+        function consoleItFonts(e) {
+            console.log(e.path[0].id)
+            // const ele = document.getElementById(e.path[0].id)
+            idName2 = e.path[0].id
+            lastDigit = parseInt(idName2[idName2.length - 1], 10)
+            console.log(lastDigit)
+            console.log("Showing the Value:" + sel2.value)
+            document.getElementById("trialer").value = sel2.value;
+            console.log("Value stored in f:" + document.getElementById("trialer").value)
+            // ele.addEventListener("change")
+        }
+        // sel.selectedIndex = 0
+        sele2.value = sel2.value
+        console.log("Initial Value:" + sel2.value)
+    }
+    myFunction()
+    myFunctionFonts()
+
+    // Font-color Dom
+    function changeFontColor() {
+        var k = document.getElementById("oh").value;
+        document.getElementById("h").innerHTML = k;
+        document.getElementById("h").value = k;
+
+    }
+
+    //Get the dimensions
+    // var widt = document.getElementById('widt').innerHTML
+    // var heig = document.getElementById('heig').innerHTML
+    // const ratio = widt / heig
+    // console.log("ratio:" + ratio)
+
+    //Build Canvas
+    const canvas = document.getElementById('hotspot_image');
+    var ctx = canvas.getContext('2d'),
+        rect = {},
+        drag = false,
+        mouseX,
+        mouseY,
+        closeEnough = 5,
+        dragTL = dragBL = dragTR = dragBR = false;
+
+    //Event listener for selecting coordinates
+    function init() {
+        canvas.addEventListener('mousedown', mouseDown, false);
+        canvas.addEventListener('mouseup', mouseUp, false);
+        canvas.addEventListener('mousemove', mouseMove, false);
+
+        rect = {
+            startX: 100,
+            startY: 200,
+            w: 300,
+            h: 200
+        }
+    }
+
+    function mouseDown(e) {
+        mouseX = e.pageX - this.offsetLeft;
+        mouseY = e.pageY - this.offsetTop;
+
+        // if there isn't a rect yet
+        if (rect.w === undefined) {
+            rect.startX = mouseY;
+            rect.startY = mouseX;
+            dragBR = true; //bottom right corner
+        }
+
+        // if there is, check which corner
+        //   (if any) was clicked
+        //
+        // 4 cases:
+        // 1. top left
+        else if (checkCloseEnough(mouseX, rect.startX) && checkCloseEnough(mouseY, rect.startY)) {
+            dragTL = true;
+        }
+        // 2. top right
+        else if (checkCloseEnough(mouseX, rect.startX + rect.w) && checkCloseEnough(mouseY, rect.startY)) {
+            dragTR = true;
+
+        }
+        // 3. bottom left
+        else if (checkCloseEnough(mouseX, rect.startX) && checkCloseEnough(mouseY, rect.startY + rect.h)) {
+            dragBL = true;
+
+        }
+        // 4. bottom right
+        else if (checkCloseEnough(mouseX, rect.startX + rect.w) && checkCloseEnough(mouseY, rect.startY + rect.h)) {
+            dragBR = true;
+
+        }
+        // (5.) none of them
+        else {
+            // handle not resizing
+        }
+
+        // ctx.clearRect(0, 0, canvas.width, canvas.height);
+        draw();
+
+    }
+
+    function checkCloseEnough(p1, p2) {
+        return Math.abs(p1 - p2) < closeEnough;
+    }
+
+    function mouseUp() {
+        dragTL = dragTR = dragBL = dragBR = false;
+    }
+
+    function mouseMove(e) {
+        mouseX = e.pageX - this.offsetLeft;
+        mouseY = e.pageY - this.offsetTop;
+        if (dragTL) {
+            rect.w += rect.startX - mouseX;
+            rect.h += rect.startY - mouseY;
+            rect.startX = mouseX;
+            rect.startY = mouseY;
+        } else if (dragTR) {
+            rect.w = Math.abs(rect.startX - mouseX);
+            rect.h += rect.startY - mouseY;
+            rect.startY = mouseY;
+        } else if (dragBL) {
+            rect.w += rect.startX - mouseX;
+            rect.h = Math.abs(rect.startY - mouseY);
+            rect.startX = mouseX;
+        } else if (dragBR) {
+            rect.w = Math.abs(rect.startX - mouseX);
+            rect.h = Math.abs(rect.startY - mouseY);
+        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        draw();
+    }
+    // Making an array of all the rect var
+    function draw() {
+        ctx.fillStyle = "#222222";
+        var a, b, c, d;
+        a = rect.startX;
+        b = rect.startY;
+        c = rect.w;
+        d = rect.h;
+        var boxData = {
+            "a": rect.startX,
+            "b": rect.startY,
+            "c": rect.w,
+            "d": rect.h
+        }
+        document.getElementById("xStart").value = a;
+        document.getElementById("yStart").value = b;
+        document.getElementById("wid").value = c;
+        document.getElementById("hei").value = d;
+
+        ctx.rect(rect.startX, rect.startY, rect.w, rect.h);
+        ctx.stroke();
+        console.log("startX:" + rect.startX + " startY:" + rect.startY + "\nrect.w:" + rect.w + " rect.h:" + rect.h)
+        drawHandles();
+    }
+
+    function drawCircle(x, y, radius) {
+        ctx.fillStyle = "#FF0000";
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+
+    function drawHandles() {
+        drawCircle(rect.startX, rect.startY, closeEnough);
+        drawCircle(rect.startX + rect.w, rect.startY, closeEnough);
+        drawCircle(rect.startX + rect.w, rect.startY + rect.h, closeEnough);
+        drawCircle(rect.startX, rect.startY + rect.h, closeEnough);
+    }
+
+    init();
+
+    //to be deleted!
+    // can.onclick = function (e) {
+    //     console.log("Hello!")
+    //     getPosition(e);
+    // }
+
+    // //Dot Size
+    // var pointSize = 10;
+
+    // //Get coordinates
+    // function getPosition(event) {
+    //     var rect = can.getBoundingClientRect(); //get position relative to the viewPort
+    //     var x = event.clientX - rect.left; //x-coordinate on canvas
+    //     var y = event.clientY - rect.top; //y-'''
+    //     console.log("x-coordinate:" + x + "\ny-coordinate:" + y)
+    //     document.getElementById('x').value = x / wid
+    //     document.getElementById('y').value = y / hei
+    //     drawCoordinates(x, y);
+    // }
+
+    // function drawCoordinates(x, y) {
+
+    //     ctx.clearRect(0, 0, can.width, can.height);
+    //     ctx.fillStyle = "#ff2626"; // Red color
+
+    //     ctx.beginPath();
+    //     ctx.arc(x, y, pointSize, 0, Math.PI * 2, true);
+    //     ctx.fill();
+    // }
+
+    // // Show/Hide Preview
+    // function myFunction() {
+    //     var x = document.getElementById("myDIV");
+    //     var y = document.getElementById("ima");
+    //     if (x.style.display === "none") {
+    //         x.style.display = "block";
+    //     } else {
+    //         x.style.display = "none";
+    //     }
+    // }
+</script>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<style>
+.row{
+  
+  color:blue ;
+}
+
+body{
+  background-color: red;
+}
+
+h1{
+  font-family:'Lato';
+  padding-top: 40px;
+
+}
+.topimg{
+width: 100px;
+height: 100px;
+border-radius: 50%;
+position: absolute;
+top: -50px;
+left: calc(50% - 50px);
+}
+.card-body input[type="text"]
+{
+  border-radius: 10px;
+}
+
+.btn{
+  border-radius: 20px;
+  width: 40%;
+  margin-top: 50px;
+  font-family: 'Lato';
+  margin-bottom: 10px;
+  
+}
+p{
+  font-family: 'Lato';
+}
+
+#logo{
+width: 100px;
+height: 80px;
+text-align: right;
+position: relative;
+left: 180px;
+
+
+
+}
+
+</style>
+
+  <body style="background-color: red;">
+<div class="body1">
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body" style="height: 650px;width:500px ; background-color: white;color: black;border: none; border:none ;border-radius: 20px;">
+      <img src="https://cdn.icon-icons.com/icons2/1879/PNG/512/iconfinder-3-avatar-2754579_120516.png" class="topimg">
+
+      <h1 class="text-center mb-3"><i class="fas fa-sign-in-alt"></i>  Login</h1>
+      <%- include ('./partials/errormsgs') %>
+      <form action="/users/login" method="POST">
+        <div class="form-group">
+          <label for="email" style="font-family:'Lato'; font-size: 20px;">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control"
+            placeholder="Enter Email"
+            style="border-radius: 20px;font-family: 'Lato';"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password"  style="font-family:'Lato';font-size: 20px;">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control"
+            placeholder="Enter Password"
+            style="border-radius: 20px;font-family: 'Lato';"
+            
+          />
+        </div>
+        <center><button type="submit" class="btn btn-primary btn-block">Submit</button></center>
+      </form>
+      <p class="lead mt-4">
+        No Account?&nbsp&nbsp <a href="/users/register">Register</a>
+      </p>
+      <p class="lead mt-2">
+        <a href="/users/forgot">Forgot Password?</a>
+        <img src="https://projectheena.com/uploads/ngo/38137483873955/profileImage/images/bhumi.jpg" id="logo">
+      </p>
+    </div>
+  </div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<h1>Preview</h1>
+<img src="<%=url%>" width="<%=width%>" height="<%=height%>">
+<h2>Add the Excel/Csv file</h2>
+<form method="post" action="/resize/uploads/<%=imgUrl%>/excel" enctype="multipart/form-data">
+    <input type="file" name="excel"/>
+    <input type="submit" value="upload" onclick="excelUploaded()"/>
+</form>
+
+<script>
+    function excelUploaded() {
+        console.log("Excel file uploaded!")
+    }
+</script>

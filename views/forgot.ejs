@@ -1,0 +1,112 @@
+<head>
+<style>
+
+h1{
+  font-family:'Lato';
+  padding-top: 60px;
+  padding-bottom: 30px;
+
+}
+p{
+  font-family: 'Lato';
+}
+label{
+  font-family: 'Lato';
+  padding-left: 17px;
+  padding-bottom: 10px;
+}
+.btn{
+  border-radius: 20px;
+  width: 60%;
+  margin-top: 50px;
+  font-family: 'Lato';
+  
+}
+.topimgf{
+width: 100px;
+height: 100px;
+border-radius: 50%;
+position: absolute;
+top: -50px;
+left: calc(50% - 50px);
+}
+
+#logo{
+width: 100px;
+height: 80px;
+text-align: right;
+position: relative;
+left: 190px;
+top: -2px;
+margin-top: 50px;
+
+}
+
+</style>
+
+</head>
+<body>
+<div class="row mt-5">
+    <div class="col-md-6 m-auto">
+      <div class="card card-body"style="height: 560px;width:500px ; background-color: white;color: black;border: none; border:none ;border-radius: 20px;">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSd3UAanmpRKbkR5OvKKnTdmok0b4GzTaYyVQ&usqp=CAU" class="topimgf">
+        <h1 class="text-center mb-3">
+           Forgot Password
+        </h1>
+        <%- include ('./partials/errormsgs') %>
+        <form action="/users/forgot" method="POST">
+          <!-- <div class="form-group">
+            <label for="name">Name</label>
+            <input
+              type="name"
+              id="name"
+              name="name"
+              class="form-control"
+              placeholder="Enter Name"
+              value="<%= typeof name != 'undefined' ? name : '' %>"
+            />
+          </div> -->
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control"
+              placeholder="Enter Email"
+              value="<%= typeof email != 'undefined' ? email : '' %>"
+              style="border-radius: 20px;font-family: 'Lato';"
+            />
+          </div>  
+          <!-- <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-control"
+              placeholder="Create Password"
+              value="<%= typeof password != 'undefined' ? password : '' %>"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password2">Confirm Password</label>
+            <input
+              type="password"
+              id="password2"
+              name="password2"
+              class="form-control"
+              placeholder="Confirm Password"
+              value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
+            />
+          </div> -->
+          <center>
+          <button type="submit" class="btn btn-primary btn-block">
+            Reset Password
+          </button></center>
+          <img src="https://www.pinclipart.com/picdir/big/58-589787_human-resource-intern-bhumi-ngo-chennai-hd-clipart.png" id="logo">
+        </form>
+      </div>
+    </div>
+  </div>
+  </body>
